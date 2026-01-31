@@ -21,14 +21,16 @@ const HomeScreen = () => {
   const router = useRouter();
   const [userName, setUserName] = useState("User");
 
-  const { logout } = useAuth();
+  const { user, logout } = useAuth();
 
   useEffect(() => {
     // Logic to pull user name from SecureStore or API
-    setUserName("Alex");
+    setUserName(user?.firstName);
+    console.log("babu ", user);
   }, []);
 
   const handleLogout = async () => {
+    console.log("babu ", user);
     await logout();
     router.replace("/(auth)/WelcomeScreen");
   };

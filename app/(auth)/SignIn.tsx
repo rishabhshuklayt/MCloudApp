@@ -96,12 +96,12 @@ const LoginScreen = () => {
 
       if (response.status === 200) {
         const responseData = await response.json();
-        console.log("Response data:", responseData.token);
+        console.log("Response data:", responseData);
 
         if (responseData.token) {
           // Use AuthContext to set token and update auth state
           try {
-            await login(responseData.token);
+            await login(responseData.token, responseData.userDetails);
           } catch (e) {
             console.error("Error saving token via AuthContext:", e);
           }

@@ -36,25 +36,26 @@ const OTPScreen = () => {
     return () => clearInterval(interval);
   }, []);
 
-
   // ResendOTP Caller
 
-  const handleResendOTP = async (email: string)=>{
-     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
-     try {
+  const handleResendOTP = async (email: string) => {
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
+    try {
+      const res = await fetch(`${BASE_URL}/auth/ResendRegistrationOtp`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: email,
+        }),
+      });
 
-       const res = await fetch(`${BASE_URL}/auth/ResendRegistrationOtp`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              email: email,
-            }),
-          });
-
-     } catch (error) {
-        console.log(error)
-     }
-  }
+      if (!res.ok) {
+        console.log("Responce Failed");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   // 2. Purpose-based API Caller
   const verifyOTP = async (finalCode: string) => {
@@ -189,7 +190,7 @@ const OTPScreen = () => {
             onPress={() => {
               setTimer(30);
               setCode("");
-              handleResendOTP(email)
+              handleResendOTP(email);
             }}
           >
             <RefreshCcw size={16} color="#3b82f6" />
